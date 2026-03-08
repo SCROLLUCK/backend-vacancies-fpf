@@ -183,7 +183,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
         
         response_serializer = VacancySerializer(vacancy)
         return Response({
-            'message': f'Status alterado para {vacancy.get_status_display()}',
+            'message': f'Status alterado com sucesso!',
             'data': response_serializer.data
         })
     

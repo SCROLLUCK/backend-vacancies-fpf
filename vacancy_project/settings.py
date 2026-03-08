@@ -58,11 +58,11 @@ WSGI_APPLICATION = 'vacancy_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'vacancy_db'),
-        'USER': os.environ.get('POSTGRES_USER', 'vacancy_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'vacancy_password'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'vacancies_database'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'NAME': os.environ.get('POSTGRES_DB', '-'),
+        'USER': os.environ.get('POSTGRES_USER', '-'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '-'),
+        'HOST': os.environ.get('POSTGRES_HOST', '-'),
+        'PORT': os.environ.get('POSTGRES_PORT', '-'),
     }
 }
 

@@ -21,16 +21,13 @@ class VacancySerializer(serializers.ModelSerializer):
         input_formats=['%Y-%m-%d']
     )
     
-    # Campos de display
-    urgency_display = serializers.CharField(source='get_urgency_display', read_only=True)
-    status_display = serializers.CharField(source='get_status_display', read_only=True)
-
+  
     class Meta:
         model = Vacancy
         fields = [
             'id', 'code', 'description', 'sector', 'manager',
-            'salaryExpectation', 'urgency', 'urgency_display',
-            'status', 'status_display', 'startDate', 'endDate', 
+            'salaryExpectation', 'urgency',
+            'status', 'startDate', 'endDate', 
             'notes', 'created_at', 'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
@@ -60,8 +57,6 @@ class VacancyListSerializer(serializers.ModelSerializer):
     startDate = serializers.DateField(source='start_date')
     endDate = serializers.DateField(source='end_date', allow_null=True)
     notes = serializers.CharField(allow_blank=True, allow_null=True)
-    urgency_display = serializers.CharField(source='get_urgency_display', read_only=True)
-    status_display = serializers.CharField(source='get_status_display', read_only=True)
     createdAt = serializers.DateTimeField(source='created_at', read_only=True)
     updatedAt = serializers.DateTimeField(source='updated_at', read_only=True)
 
@@ -69,8 +64,8 @@ class VacancyListSerializer(serializers.ModelSerializer):
         model = Vacancy
         fields = [
             'id', 'code', 'description', 'sector', 'manager',
-            'salaryExpectation', 'urgency', 'urgency_display',
-            'status', 'status_display', 'startDate', 'endDate',
+            'salaryExpectation', 'urgency',
+            'status', 'startDate', 'endDate',
             'notes', 'createdAt', 'updatedAt'
         ]
 
