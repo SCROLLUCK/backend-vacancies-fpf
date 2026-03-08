@@ -1,0 +1,59 @@
+services:
+  vacancy_api:
+    build: .
+    container_name: vacancy_api
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - DB_ENGINE=django.db.backends.postgresql
+      - POSTGRES_DB=vacancy_db
+      - POSTGRES_USER=vacancy_user
+      - POSTGRES_PASSWORD=vacancy_password
+      - POSTGRES_HOST=vacancies_database # Importante: usar o nome do serviço
+      - POSTGRES_PORT=5432
+    networks:
+      - vacancy_network
+    restart: unless-stopped
+    depends_on:
+      vacancies_database:
+        condition: service_healthy
+
+  vacancies_database:
+    image: postgres:15
+    container_name: vacancies_database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=vacancy_user
+      - POSTGRES_PASSWORD=vacancy_password
+      - POSTGRES_DB=vacancy_db
+    ports:
+      - "5432:5432"
+    networks:
+      - vacancy_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vacancy_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  vacancy_network:
+    driver: bridge
+
+volumes:
+  static_volume:
+  media_volume:
+  postgres_data:
